@@ -7,7 +7,7 @@ This project demonstrates an end-to-end data engineering pipeline built on Azure
 1. [Project Structure](#project-structure)
 2. [Prerequisites](#prerequisites)
 3. [Getting Started](#getting-started)
-   - [Download and Restore AdventureWorksLT2017 Database](#1-download-and-restore-adventureworksl2017-database)
+   - [Download and Restore AdventureWorksLT2017 Database](#1-download-and-restore-adventureworkslt2017-database)
    - [Create Resource Group](#2-create-resource-group)
    - [Azure Data Factory Setup](#3-azure-data-factory-df-setup)
    - [Azure Databricks Setup](#4-azure-databricks-db-setup)
