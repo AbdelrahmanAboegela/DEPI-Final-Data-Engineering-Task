@@ -1,79 +1,130 @@
-
 # DEPI-Final-Data-Engineering-Task
 
-DEPI-Final-Data Engineering-Task is an end-to-end project utilizing Azure cloud services to build data pipelines. The project focuses on data ingestion, transformation, and storage, leveraging Azure Data Factory, Databricks, and Synapse Analytics to deliver secure, scalable, and efficient data solutions.
+This project showcases an end-to-end data engineering pipeline built on Azure cloud services. The project focuses on data ingestion, transformation, and storage, leveraging services such as Azure Data Factory, Azure Databricks, Azure Synapse Analytics, and Power BI for visualization.
 
-## Table of Contents
-- [Overview](#overview)
-- [Technologies Used](#technologies-used)
-- [Installation](#installation)
-- [Usage](#usage)
-  - [Data Ingestion](#data-ingestion)
-  - [Data Transformation](#data-transformation)
-  - [Data Loading and Reporting](#data-loading-and-reporting)
-- [Automation and Monitoring](#automation-and-monitoring)
-- [Security and Governance](#security-and-governance)
-- [Credits](#credits)
+## Project Structure
 
-## Overview
+The project is organized into the following components:
 
-This project addresses a critical business need by building a comprehensive data pipeline on Azure. The goal is to extract customer and sales data from an on-premises SQL database, transform it in the cloud, and generate actionable insights through a Power BI dashboard. The dashboard will highlight key performance indicators (KPIs) related to gender distribution and product category sales, allowing stakeholders to filter and analyze data by date, product category, and gender.
+- **Azure Key Vault (KV)**: Used to manage secrets, such as credentials for accessing data sources and services.
+- **Azure Data Lake Storage (DLG2)**: Scalable storage for raw, cleansed, and transformed data.
+- **Azure Data Factory (DF)**: For orchestrating data workflows, including data movement and triggering Databricks notebooks.
+- **Azure Databricks (DB)**: Used for data processing and transformation (bronze-to-silver and silver-to-gold transformations).
+- **Azure Synapse Analytics (S_PL & S_VP)**: For data warehousing and running queries on the processed data.
+- **Power BI**: Used to create interactive reports and dashboards.
 
-## Technologies Used
+## Prerequisites
 
-- **Azure Data Factory (ADF)**: For orchestrating data movement and transformation.
-- **Azure Data Lake Storage (ADLS)**: For storing raw and processed data.
-- **Azure Databricks**: For data transformation and processing.
-- **Azure Synapse Analytics**: For data warehousing and SQL-based analytics.
-- **Power BI**: For data visualization and reporting.
-- **Azure Key Vault**: For securely managing credentials and secrets.
-- **SQL Server (On-Premises)**: Source of customer and sales data.
+Before setting up the project, ensure that you have:
 
-## Installation
+- An Azure subscription with appropriate permissions.
+- Access to Azure Data Factory, Azure Databricks, Azure Synapse Analytics, and Power BI.
+- Basic understanding of Azure services and data engineering concepts.
+- SQL Server instance for AdventureWorksLT2017 database.
 
-To set up this project, follow the steps below:
+## Getting Started
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/AbdelrahmanAboegela/DEPI-Final-Data-Engineering-Task
-   cd DEPI-Final-Data-Engineering-Task
-   ```
-2. **Set up the Azure environment**:
-   - Create an Azure Data Factory instance.
-   - Set up Azure Data Lake Storage with bronze, silver, and gold containers.
-   - Create Azure Databricks and Azure Synapse Analytics workspaces.
-   - Configure Azure Key Vault for secret management.
+### 1. Download and Restore AdventureWorksLT2017 Database
 
-## Usage
+1. **Download the Database**: Obtain the AdventureWorksLT2017 database from [this link](https://learn.microsoft.com/en-us/sql/samples/adventureworks-install-configure?view=sql-server-ver16).
+2. **Restore the Database**: Follow the instructions on the download page to restore the database to your SQL Server instance.
 
-### Data Ingestion
-   Extract customer and sales data from the on-premises SQL database using ADF. Load the data into the bronze layer in ADLS.
-   ```bash
-   Execute ADF pipeline for data ingestion
-   ```
+### 2. Create Resource Group
 
-### Data Transformation
-   Clean and aggregate the data in Databricks, progressing it through bronze, silver, and gold layers.
-   ```bash
-   Use Databricks notebooks for data transformation
-   ```
+1. In the **Azure Portal**, search for **Resource Groups**.
+2. Click on **Create**, choose your subscription, and name the resource group (e.g., DEPI-ResourceGroup).
+3. Choose a **Region** and click **Review + Create**.
 
-### Data Loading and Reporting
-   Load transformed data into Azure Synapse Analytics. Build Power BI dashboards to visualize KPIs based on the transformed data.
-   ```bash
-   Build Power BI dashboard for insights
-   ```
+### 3. Azure Data Factory (DF) Setup
 
-## Automation and Monitoring
-- Schedule the pipelines to run daily using Azure Data Factory.
-- Monitor the data pipelines with built-in monitoring tools in ADF and Synapse.
+Azure Data Factory orchestrates data movement and workflow automation, including running Databricks notebooks for data transformations.
 
-## Security and Governance
-- Set up role-based access control (RBAC) using Azure Entra ID (formerly Azure Active Directory) to manage data access and security.
+1. **Create a Data Pipeline**:
+   - Navigate to **ADF Studio** via **Azure Portal**.
+   - Click on **Author & Monitor** and create a **New Pipeline**.
+   - Add activities like **Copy Data**, **Data Flow**, and **Lookup** to define data movement and transformations.
+   
+2. **Configure Linked Services**:
+   - Go to **Manage** and create linked services for **SQL Server** and **ADLS**.
+   
+3. **Trigger Databricks Notebooks**:
+   - Add a **Databricks Notebook Activity** to trigger the bronze-to-silver and silver-to-gold transformations.
 
-## Credits
+**DF Pipeline:**
+![DF Pipeline](C:/Users/0king/Desktop/Depi Task/DF.png)
 
-This project was completed as part of my learning in the Data Engineering track. I would like to acknowledge the following resources and contributors:
+**DF Pipeline Run (DF_PLR):**
+![DF Pipeline Run](C:/Users/0king/Desktop/Depi Task/DF_PLR.png)
 
-- **Microsoft Azure Documentation**: For providing detailed guides on Azure services.
-- **Online tutorials and courses**: For knowledge and best practices in setting up the data pipeline.
+### 4. Azure Databricks (DB) Setup
+
+1. **Create Databricks Workspace**:
+   - Create a Databricks workspace in the **Azure Portal** and configure it.
+
+2. **Create and Configure Clusters**:
+   - Navigate to **Clusters**, set the VM size, and enable auto-scaling.
+   
+3. **Create Python Notebooks**:
+   - Develop PySpark notebooks for bronze-to-silver and silver-to-gold transformations.
+   
+4. **Integrate with ADF**:
+   - Link these notebooks to your ADF pipeline.
+
+**Databricks Workspace Setup (DB):**
+![Databricks Setup](C:/Users/0king/Desktop/Depi Task/DB.png)
+
+### 5. Azure Data Lake (DLG2) Setup
+
+1. **Create Storage Account**:
+   - Go to **Storage Accounts** and create a new account (e.g., depidatalake).
+   
+2. **Create Containers**:
+   - Create containers for **bronze**, **silver**, and **gold** layers to store raw, cleansed, and processed data.
+
+**Data Lake Containers (DLG2):**
+![Data Lake Containers](C:/Users/0king/Desktop/Depi Task/DLG2.png)
+
+### 6. Azure Synapse Analytics (S_PL & S_VP) Setup
+
+1. **Create Synapse Workspace**:
+   - Set up a Synapse workspace and link it to your data lake.
+   
+2. **Create SQL Pools**:
+   - Set up SQL pools to run serverless queries on processed data.
+
+3. **Run Queries**:
+   - Execute SQL queries for analytics and create views.
+
+**Synapse Pipeline (S_PL):**
+![Synapse Pipeline](C:/Users/0king/Desktop/Depi Task/S_PL.png)
+
+**Synapse View Procedure (S_VP):**
+![Synapse View Procedure](C:/Users/0king/Desktop/Depi Task/S_VP.png)
+
+### 7. Azure Key Vault (KV) Setup
+
+1. **Create Key Vault**:
+   - In the **Azure Portal**, create a Key Vault to store credentials securely.
+
+2. **Use Key Vault for Secrets**:
+   - Store credentials such as SQL Server connection strings, ADLS keys, etc.
+
+**Key Vault Secrets (KV):**
+![Key Vault](![KV](https://github.com/user-attachments/assets/75878969-83c3-45db-b3da-23c45c5dd174))
+
+### 8. Power BI Setup
+
+1. **Connect Power BI to Synapse**:
+   - Use Power BI Desktop to connect to Azure Synapse for visualization.
+   
+2. **Create Interactive Reports**:
+   - Build dashboards and reports on KPIs such as sales by product category and gender.
+
+3. **Publish Reports**:
+   - Publish to **Power BI Service** for sharing and collaboration.
+
+
+## Conclusion
+
+This repository provides a detailed guide for setting up an end-to-end Azure data engineering pipeline. The project integrates Azure Data Factory, Databricks, Synapse Analytics, and Power BI to deliver a complete data solution.
+
