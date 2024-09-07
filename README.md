@@ -2,6 +2,23 @@
 
 This project demonstrates an end-to-end data engineering pipeline built on Azure cloud services. It focuses on data ingestion, transformation, and storage using services such as Azure Data Factory, Azure Databricks, Azure Synapse Analytics, and Power BI for visualization.
 
+## Table of Contents
+
+1. [Project Structure](#project-structure)
+2. [Prerequisites](#prerequisites)
+3. [Getting Started](#getting-started)
+   - [Download and Restore AdventureWorksLT2017 Database](#1-download-and-restore-adventureworksl2017-database)
+   - [Create Resource Group](#2-create-resource-group)
+   - [Azure Data Factory Setup](#3-azure-data-factory-df-setup)
+   - [Azure Databricks Setup](#4-azure-databricks-db-setup)
+   - [Azure Data Lake Setup](#5-azure-data-lake-dlg2-setup)
+   - [Azure Synapse Analytics Setup](#6-azure-synapse-analytics-s_pl-s_vp-setup)
+   - [Azure Key Vault Setup](#7-azure-key-vault-kv-setup)
+   - [Power BI Setup](#8-power-bi-setup)
+4. [Conclusion](#conclusion)
+
+---
+
 ## Project Structure
 
 The project is organized into the following components:
